@@ -1,5 +1,6 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -11,13 +12,12 @@ public class ChangeUserDataTest extends PreloadData{
         public void changeUserDataTest() {
             createNewUser(newUser);
             AccessData accessData = loginRestTest(loginForm).as(AccessData.class);
-            changeUserData(userNewData, accessData.getAccessToken())
-                    .then()
-                    .statusCode(200).body("success",equalTo(true));
-            createNewUser(userNewData);
+            UserResponseTemplate userResponseTemplate = changeUserData(userNewData, accessData.getAccessToken()).as(UserResponseTemplate.class);
             accessData = loginRestTest(newLoginForm).as(AccessData.class);
+            Assert.assertEquals(accessData.getUser().getEmail(), userResponseTemplate.getUser().getEmail());
+            Assert.assertEquals(accessData.getUser().getName(), userResponseTemplate.getUser().getName());
+            // Доп действие для данного кейса по удалению данных
             changeUserData(newUser, accessData.getAccessToken());
-
         }
 
        @Test
@@ -28,7 +28,7 @@ public class ChangeUserDataTest extends PreloadData{
             createNewUser(userNewData);
             AccessData accessData = loginRestTest(loginForm).as(AccessData.class);
             changeUserData(userNewData, accessData.getAccessToken())
-                   .then().log().all()
+                    .then()
                     .statusCode(403).body("message",equalTo("User with such email already exists"));
         }
 
