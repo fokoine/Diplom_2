@@ -16,8 +16,6 @@ public class ChangeUserDataTest extends PreloadData{
             accessData = loginRestTest(newLoginForm).as(AccessData.class);
             Assert.assertEquals(accessData.getUser().getEmail(), userResponseTemplate.getUser().getEmail());
             Assert.assertEquals(accessData.getUser().getName(), userResponseTemplate.getUser().getName());
-            // Доп действие для данного кейса по удалению данных
-            changeUserData(newUser, accessData.getAccessToken());
         }
 
        @Test

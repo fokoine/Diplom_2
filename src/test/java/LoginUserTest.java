@@ -22,7 +22,7 @@ public class LoginUserTest extends PreloadData{
     public void loginTestInvalidLoginData() {
         createNewUser(newUser);
         loginRestTest(loginFormInvalid)
-                .then().log().all()
+                .then()
                 .statusCode(401).body("message",equalTo("email or password are incorrect"));
         loginRestTest(loginForm);
     }

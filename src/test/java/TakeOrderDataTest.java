@@ -3,7 +3,6 @@ import io.qameta.allure.junit4.DisplayName;
 import order.data.Ingredients;
 import order.data.OrderJsonTemplate;
 import org.junit.Test;
-
 import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -23,7 +22,7 @@ public class TakeOrderDataTest extends PreloadData {
         ingredients.setIngredients(2, orderJsonTemplate.getData().get(2).get_id());
         orderCreateToken(ingredients, accessData.getAccessToken());
         getOrderListAuth(accessData.getAccessToken())
-                .then().log().all()
+                .then()
                 .statusCode(200)
                 .body("success",equalTo(true));
 

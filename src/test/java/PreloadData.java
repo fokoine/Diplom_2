@@ -99,9 +99,12 @@ public class PreloadData {
     public void deleteUser() {
         AccessData accessData = loginRestTest(loginForm).as(AccessData.class);
         if (accessData.getAccessToken() != null) {
-            Response response = given().header("authorization", accessData.getAccessToken()).and().body(newUser).delete("api/auth/user");
+            given().header("authorization", accessData.getAccessToken()).and().body(newUser).delete("api/auth/user");
         } else {
-            Response response = given().and().body(newUser).delete("api/auth/user");
+            accessData = loginRestTest(newLoginForm).as(AccessData.class);
+            if (accessData.getAccessToken() != null) {
+                given().header("authorization", accessData.getAccessToken()).and().body(userNewData).delete("api/auth/user");
+            }
         }
     }
 
